@@ -1,15 +1,39 @@
+// Import Vue Router functions for creating and configuring routes
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../views/HomePage.vue'
 
+// Import the components and views used in the routes
+import HomePage from '../views/HomePage.vue'
+import ProductPage from '../views/ProductPage.vue'
+import ProductDetails from '../components/ProductDetails.vue'
+
+// Create a Vue Router instance and define the routes
 const router = createRouter({
+  // Configure the router to use web history mode with the base URL
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      // Route for the home page
       path: '/',
       name: 'home',
       component: HomePage
+    },
+    {
+      // Dynamic route for displaying a product page
+      path: '/product/:productId',
+      name: 'product-page',
+      component: ProductPage,
+      props: true,
+      children: [
+        {
+          // Nested route for displaying product details
+          path: '',
+          name: 'product-details',
+          component: ProductDetails,
+          props: true
+        }
+      ]
     }
   ]
 })
 
-export default router
+export default router // Export the configured Vue Router instance
