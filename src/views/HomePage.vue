@@ -11,6 +11,9 @@
   <div>
     <BrandValues />
   </div>
+  <div>
+    <ContactSection />
+  </div>
 </template>
 
 <script setup>
@@ -18,4 +21,5 @@ import NavBar from '../components/NavBar.vue'
 import PromoSection from '../components/PromoSection.vue'
 import ProductList from '../components/ProductList.vue'
 import BrandValues from '../components/BrandValues.vue'
+import ContactSection from '../components/ContactSection.vue'
 </script>
