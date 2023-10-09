@@ -1,10 +1,14 @@
 <template>
-  <div class="bg-spring">
+  <div class="bg-ghostwhite">
     <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8 lg:py-12">
       <h2
-        class="text-2xl lg:text-4xl text-center font-bold tracking-tight text-gray-900 pb-4 sm:pb-8 lg:pb-12"
+        class="text-2xl lg:text-4xl text-center font-bold tracking-tight text-hovergreen pb-3 sm:pb-4 lg:pb-6 relative mb-6 sm:mb-8 lg:mb-12"
       >
         Értékek
+        <!-- Line Separator -->
+        <span
+          class="block w-16 mx-auto h-1 bg-hovergreen absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2"
+        ></span>
       </h2>
       <!-- Grid for displaying values -->
       <dl
@@ -15,10 +19,10 @@
           <!-- Icon container -->
           <div class="flex items-center justify-center pb-4 mx-auto rounded-lg">
             <!-- Display the icon of the value -->
-            <component :is="value.icon" class="h-10 w-10 text-serpentine" aria-hidden="true" />
+            <component :is="value.icon" class="h-10 w-10 text-hovergreen" aria-hidden="true" />
           </div>
           <!-- Value heading -->
-          <dt class="mt-2 text-base font-semibold leading-7 text-serpentine">
+          <dt class="mt-2 text-base font-semibold leading-7 text-hovergreen">
             {{ value.heading }}
           </dt>
           <!-- Value description -->

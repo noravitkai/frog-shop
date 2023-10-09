@@ -4,6 +4,10 @@
 
 @layer components {
     :root {
-      --swiper-pagination-color: #283106;
+      --swiper-pagination-color: #454944;
     }
   }
+
+html {
+  scroll-behavior: smooth;
+}

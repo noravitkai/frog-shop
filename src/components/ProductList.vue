@@ -1,10 +1,14 @@
 <template>
-  <div class="bg-frost">
+  <div class="bg-greygreen" id="products">
     <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8 lg:py-12">
       <h2
-        class="text-2xl lg:text-4xl text-center font-bold tracking-tight text-gray-900 pb-4 sm:pb-8 lg:pb-12"
+        class="text-2xl lg:text-4xl text-center font-bold tracking-tight text-hovergreen pb-3 sm:pb-4 lg:pb-6 relative mb-6 sm:mb-8 lg:mb-12"
       >
         Termékek
+        <!-- Line Separator -->
+        <span
+          class="block w-16 mx-auto h-1 bg-hovergreen absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2"
+        ></span>
       </h2>
       <!-- Grid for displaying products -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -13,7 +17,7 @@
           <!-- Clickable product images with a link to the product page -->
           <a :href="getProductPageUrl(product.id)">
             <div
-              class="aspect-w-1 aspect-h-1 w-full rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+              class="aspect-w-1 aspect-h-1 w-full rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 shadow-md"
             >
               <!-- Display the image of the product -->
               <img
@@ -26,7 +30,7 @@
           <div class="mt-4 flex justify-between">
             <div>
               <!-- Clickable product names with a link to the product page -->
-              <h3 class="text-sm text-gray-700">
+              <h3 class="text-sm text-shadowgreen">
                 <a :href="getProductPageUrl(product.id)">
                   <span aria-hidden="true" class="absolute inset-0" />
                   {{ product.name }}
@@ -34,7 +38,7 @@
               </h3>
             </div>
             <!-- Display the product price -->
-            <p class="text-sm font-medium text-gray-900">{{ product.price }}</p>
+            <p class="text-sm font-medium text-hovergreen">{{ product.price }}</p>
           </div>
         </div>
       </div>

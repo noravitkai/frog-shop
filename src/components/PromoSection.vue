@@ -1,6 +1,6 @@
 <template>
   <!-- Main container for the component -->
-  <div class="relative h-[80vh] overflow-hidden">
+  <div class="relative h-[80vh] overflow-hidden shadow-md">
     <!-- Swiper Slider for the carousel -->
     <swiper
       :modules="modules"
@@ -32,14 +32,15 @@
     </swiper>
     <!-- Overlay content with heading, subheading, and CTA button -->
     <div class="absolute inset-0 flex items-center justify-center">
-      <div class="text-center text-black relative z-10">
+      <div class="text-center text-hovergreen relative z-10">
         <h1 class="text-4xl lg:text-6xl font-bold tracking-tight mb-4">Békás Műhely</h1>
         <p class="text-lg lg:text-xl mb-6">Kézműves. Vagány. Környezetbarát.</p>
-        <button
-          class="bg-serpentine text-white py-2 px-6 rounded-full text-sm lg:text-base hover:bg-ivy transition duration-300"
+        <a
+          href="#products"
+          class="bg-shadowgreen shadow-md text-ghostwhite py-2 px-6 text-sm lg:text-base hover:bg-hovergreen transition duration-300"
         >
           Termékek
-        </button>
+        </a>
       </div>
     </div>
   </div>
