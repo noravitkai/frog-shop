@@ -21,7 +21,7 @@
             >
               <!-- Display the image of the product -->
               <img
-                :src="product.imageSrc"
+                :src="product.imageURL"
                 :alt="product.imageAlt"
                 class="object-cover object-center w-full h-full"
               />
@@ -71,7 +71,8 @@ const getProductsData = () => {
         imageURL: doc.data().imageURL,
         category: doc.data().category,
         stockQuantity: doc.data().stockQuantity,
-        preparationTime: doc.data().preparationTime
+        preparationTime: doc.data().preparationTime,
+        imageAlt: `Image of ${doc.data().name}`
       }
     })
   })

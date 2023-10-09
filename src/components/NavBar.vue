@@ -5,7 +5,7 @@
       <div class="flex lg:flex-1">
         <a href="#" class="-m-1.5 p-1.5">
           <span class="sr-only">Frog Shop</span>
-          <img class="h-8 w-auto" src="src/assets/happy-frog.svg" alt="" />
+          <img class="h-8 w-auto" :src="HappyFrog" alt="Frog Shop" />
         </a>
       </div>
 
@@ -107,6 +107,7 @@
 </template>
 
 <script setup>
+import HappyFrog from '../assets/happy-frog.svg'
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
