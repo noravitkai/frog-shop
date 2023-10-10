@@ -1,51 +1,49 @@
 <template>
   <div>
-    <!-- Render the ProductDetails component with productData as a prop -->
-    <ProductDetails :productData="productData" />
+    <NavBar />
+  </div>
+  <div class="mt-14">
+    <ProductDetails :productId="productId" />
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
+<script setup>
+import NavBar from '../components/NavBar.vue'
+import FooterComponent from '../components/FooterComponent.vue'
+import ProductDetails from '../components/ProductDetails.vue'
+import { ref, onMounted, defineProps } from 'vue'
 import { db } from '../firebase.js'
 import { doc, getDoc } from 'firebase/firestore'
-import ProductDetails from '../components/ProductDetails.vue'
 
-export default {
-  props: {
-    productId: String // Define productId as a prop
-  },
-  components: {
-    ProductDetails // Register the ProductDetails component
-  },
-  setup(props) {
-    // Define a reactive variable to store product data
-    const productData = ref(null)
+// Define the props that your component receives
+const props = defineProps({
+  productId: String // Define the expected type of the prop
+})
 
-    // Reference to the Firestore document for the specified product
-    const productDocRef = doc(db, 'products', props.productId)
+// Define a reactive variable to store product data
+const productData = ref(null)
 
-    // Fetch and populate product data when the component is mounted
-    onMounted(async () => {
-      try {
-        // Get a snapshot of the product document from Firestore
-        const productSnapshot = await getDoc(productDocRef)
+// Reference to the Firestore document for the specified product
+const productDocRef = doc(db, 'products', props.productId)
 
-        // Check if the product document exists
-        if (productSnapshot.exists()) {
-          // Map Firestore document data to the productData variable
-          productData.value = productSnapshot.data()
-        } else {
-          // Handle the case where the product doesn't exist
-        }
-      } catch (error) {
-        // Handle any errors that may occur during data retrieval
-      }
-    })
+// Fetch and populate product data when the component is mounted
+onMounted(async () => {
+  try {
+    // Get a snapshot of the product document from Firestore
+    const productSnapshot = await getDoc(productDocRef)
 
-    return {
-      productData
+    // Check if the product document exists
+    if (productSnapshot.exists()) {
+      // Map Firestore document data to the productData variable
+      productData.value = productSnapshot.data()
+    } else {
+      // Handle the case where the product doesn't exist
     }
+  } catch (error) {
+    // Handle any errors that may occur during data retrieval
   }
-}
+})
 </script>

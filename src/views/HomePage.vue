@@ -3,7 +3,7 @@
     <div>
       <NavBar />
     </div>
-    <div>
+    <div class="mt-14">
       <PromoSection />
     </div>
     <div>

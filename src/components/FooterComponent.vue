@@ -7,7 +7,7 @@
         class="flex flex-col items-center justify-center gap-0 sm:justify-between sm:gap-4 md:flex-row md:gap-0"
       >
         <!-- Logo or site branding linked to the navbar -->
-        <a href="#navbar" class="mb-4 flex items-center sm:mb-0">
+        <a href="#home" class="mb-4 flex items-center sm:mb-0">
           <img src="../assets/happy-frog.svg" class="mr-3 h-10" alt="Békás Műhely" />
         </a>
         <!-- Sitemap with navigation links -->

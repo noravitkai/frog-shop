@@ -22,10 +22,9 @@ const router = createRouter({
       path: '/product/:productId',
       name: 'product-page',
       component: ProductPage,
-      props: true,
+      props: (route) => ({ productId: route.params.productId }),
       children: [
         {
-          // Nested route for displaying product details
           path: '',
           name: 'product-details',
           component: ProductDetails,
