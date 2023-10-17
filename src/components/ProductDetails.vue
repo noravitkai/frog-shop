@@ -54,7 +54,8 @@
           <h2 class="sr-only">Product information</h2>
           <p class="text-3xl tracking-tight text-hovergreen">{{ productData.price }} Ft</p>
 
-          <form class="mt-10">
+          <!-- Add-to-Cart Button -->
+          <form @submit.prevent="addToCartClicked" class="mt-10">
             <button
               type="submit"
               class="mt-10 flex bg-shadowgreen shadow-md text-ghostwhite py-2 px-6 text-sm lg:text-base hover:bg-hovergreen transition duration-300"
@@ -81,10 +82,11 @@
 
             <div class="mt-4">
               <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-                <li class="text-shadowgreen">Category: {{ productData.category }}</li>
-                <li class="text-shadowgreen">Stock Quantity: {{ productData.stockQuantity }} db</li>
                 <li class="text-shadowgreen">
-                  Preparation Time: {{ productData.preparationTime }} munkanap
+                  Jelenlegi mennyiség: {{ productData.stockQuantity }} db
+                </li>
+                <li class="text-shadowgreen">
+                  Elkészítési idő: {{ productData.preparationTime }} munkanap
                 </li>
               </ul>
             </div>
@@ -96,28 +98,22 @@
 </template>
 
 <script setup>
+import { addToCart } from '../cart.js'
+
 import { ref, onMounted, defineProps } from 'vue'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../firebase.js' // Import the 'db' variable from the Firebase setup
+import { db } from '../firebase.js'
 
-const { productId } = defineProps(['productId']) // Received from the router via props
+const { productId } = defineProps(['productId']) // Extract the 'productId' prop from the component's props
+const productData = ref(null) // Create a reactive reference to store product data
+const productDocRef = doc(db, 'products', productId) // Reference to a specific document in Firestore
 
-// Define a reactive variable to store product data
-const productData = ref(null)
-
-// Reference to the Firestore document for the specified product
-const productDocRef = doc(db, 'products', productId)
-
-// Fetch and populate product data when the component is mounted
 onMounted(async () => {
+  // Execute when the component is mounted
   try {
-    // Get a snapshot of the product document from Firestore
-    const productSnapshot = await getDoc(productDocRef)
-
-    // Check if the product document exists
+    const productSnapshot = await getDoc(productDocRef) // Retrieve the product document from Firestore
     if (productSnapshot.exists()) {
-      // Map Firestore document data to the productData variable
-      productData.value = productSnapshot.data()
+      productData.value = productSnapshot.data() // Update productData with the retrieved product data
     } else {
       // Handle the case where the product doesn't exist
     }
@@ -125,4 +121,9 @@ onMounted(async () => {
     // Handle any errors that may occur during data retrieval
   }
 })
+
+const addToCartClicked = () => {
+  // Function to add the product to the cart
+  addToCart(productData.value) // Call the addToCart function with the retrieved product data
+}
 </script>
