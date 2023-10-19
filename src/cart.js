@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { saveCart } from './localStorage'
 
 // Create a reactive reference to store the cart items
 const cart = ref([])
@@ -9,6 +10,9 @@ const addToCart = (product) => {
   const item = { ...product, quantity: 1 }
   // Add the item to the cart
   cart.value.push(item)
+
+  // Save the updated cart data to local storage
+  saveCart(cart.value)
 }
 
 // Function to remove a product from the cart
@@ -18,6 +22,9 @@ const removeFromCart = (product) => {
   // If the product is found in the cart, remove it
   if (index !== -1) {
     cart.value.splice(index, 1)
+
+    // Save the updated cart data to local storage
+    saveCart(cart.value)
   }
 }
 
