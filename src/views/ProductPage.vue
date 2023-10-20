@@ -1,11 +1,9 @@
 <template>
   <div>
     <NavBar />
-  </div>
-  <div class="mt-14">
-    <ProductDetails :productId="productId" />
-  </div>
-  <div>
+    <div class="mt-14">
+      <ProductDetails :productId="productId" />
+    </div>
     <FooterComponent />
   </div>
 </template>
@@ -18,7 +16,7 @@ import { ref, onMounted, defineProps } from 'vue'
 import { db } from '../firebase.js'
 import { doc, getDoc } from 'firebase/firestore'
 
-// Define the props that your component receives
+// Define the props that the component receives
 const props = defineProps({
   productId: String // Define the expected type of the prop
 })
@@ -34,7 +32,6 @@ onMounted(async () => {
   try {
     // Get a snapshot of the product document from Firestore
     const productSnapshot = await getDoc(productDocRef)
-
     // Check if the product document exists
     if (productSnapshot.exists()) {
       // Map Firestore document data to the productData variable

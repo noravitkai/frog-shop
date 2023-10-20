@@ -9,8 +9,25 @@
         </a>
       </div>
 
-      <!-- Mobile Navigation Button -->
+      <!-- Shopping Bag and Navigation Button on Mobile -->
       <div class="flex lg:hidden">
+        <!-- Shopping Bag on Mobile -->
+        <button
+          type="button"
+          class="inline-flex items-center justify-center relative p-2.5 text-hovergreen mr-4"
+          @click="toggleCart"
+        >
+          <span class="sr-only">Open shopping cart</span>
+          <ShoppingBagIcon class="h-5 w-5" aria-hidden="true" />
+          <!-- Display badge if the cart is not empty -->
+          <span
+            v-if="cart.length"
+            class="absolute top-0 right-0 -mt-1 -mr-1 inline-flex items-center justify-center bg-hovergreen rounded-full h-4 w-4 text-sm text-ghostwhite"
+          >
+            {{ cart.length }}
+          </span>
+        </button>
+        <!-- Mobile Navigation Button -->
         <button
           type="button"
           class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-hovergreen"
@@ -37,13 +54,31 @@
         </a>
       </div>
 
-      <!-- Log in Button on Desktop -->
+      <!-- Shopping Bag and Log in Button on Desktop -->
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <!-- Shopping Bag on Desktop -->
+        <button
+          type="button"
+          class="-m-2.5 inline-flex items-center justify-center relative p-2.5 text-hovergreen mr-6"
+          @click="toggleCart"
+        >
+          <span class="sr-only">Open shopping cart</span>
+          <ShoppingBagIcon class="h-5 w-5" aria-hidden="true" />
+          <!-- Display badge if the cart is not empty -->
+          <span
+            v-if="cart.length"
+            class="absolute top-0 right-0 -mt-1 -mr-1 inline-flex items-center justify-center bg-hovergreen rounded-full h-4 w-4 text-sm text-ghostwhite"
+          >
+            {{ cart.length }}
+          </span>
+        </button>
+
+        <!-- Log in Button on Desktop -->
         <a href="#" class="text-sm font-semibold leading-6 text-hovergreen group relative">
           Bejelentkezés
           <!-- Underline Effect -->
           <span
-            class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform translate-y-1 scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
           ></span>
           <span aria-hidden="true">&rarr;</span>
         </a>
@@ -104,13 +139,16 @@
       </DialogPanel>
     </Dialog>
   </header>
+  <!-- Conditionally render the ShoppingCart component based on showCart value -->
+  <ShoppingCart v-if="showCart" @closeCart="toggleCart" />
 </template>
 
 <script setup>
 import HappyFrog from '../assets/happy-frog.svg'
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
+import { cart } from '../cart.js'
 
 const navigation = [
   { name: 'Főoldal', href: '/', hover: false },
@@ -119,4 +157,9 @@ const navigation = [
 ]
 
 const mobileMenuOpen = ref(false)
+const showCart = ref(false)
+
+const toggleCart = () => {
+  showCart.value = !showCart.value
+}
 </script>
