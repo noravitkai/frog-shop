@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import ProductPage from '../views/ProductPage.vue'
 import ProductDetails from '../components/ProductDetails.vue'
+import FAQPage from '../views/FAQPage.vue'
 
 // Create a Vue Router instance and define the routes
 const router = createRouter({
@@ -31,7 +32,13 @@ const router = createRouter({
           props: true
         }
       ]
-    }
+    },
+    {
+      // Route for the FAQ page
+      path: '/faq',
+      name: 'faq',
+      component: FAQPage
+    },
   ]
 })
 
