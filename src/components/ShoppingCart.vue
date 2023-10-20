@@ -100,10 +100,10 @@
                     </p>
                     <!-- Proceed to Checkout -->
                     <div class="mt-6">
-                      <a
-                        href="#"
+                      <router-link
+                        to="/checkout"
                         class="items-center justify-center mt-10 flex bg-shadowgreen shadow-md text-ghostwhite py-2 px-6 text-sm lg:text-base hover:bg-hovergreen transition duration-300"
-                        >Tovább</a
+                        >Tovább</router-link
                       >
                     </div>
                     <!-- Continue Shopping -->
