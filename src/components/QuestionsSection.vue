@@ -11,7 +11,9 @@
         ></span>
       </h2>
       <p class="mt-2 text-base leading-7 text-hovergreen font-medium">
-        Olvasd el az alábbi gyakran felmerülő kérdéseket, hátha kérdésedre azonnal választ kapsz. Ha mégsem, bátran vedd fel velem a kapcsolatot a kapcsolati űrlapon keresztül, vagy keress elérhetőségeim egyikén.
+        Olvasd el az alábbi gyakran felmerülő kérdéseket, hátha kérdésedre azonnal választ kapsz. Ha
+        mégsem, bátran vedd fel velem a kapcsolatot a kapcsolati űrlapon keresztül, vagy keress
+        elérhetőségeim egyikén.
       </p>
 
       <div v-for="(faq, index) in faqs" :key="index" class="my-4">
@@ -60,5 +62,4 @@ const faqs = ref([
 const toggleAnswer = (index) => {
   faqs.value[index].open = !faqs.value[index].open
 }
-</script> 
-
+</script>

@@ -38,7 +38,9 @@
               </h3>
             </div>
             <!-- Display the product price -->
-            <p class="text-sm font-medium text-hovergreen">{{ product.price }}</p>
+            <p class="text-sm font-medium text-hovergreen">
+              {{ product.price }}
+            </p>
           </div>
         </div>
       </div>

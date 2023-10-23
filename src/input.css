@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @layer components {
-    :root {
-      --swiper-pagination-color: #454944;
-    }
+  :root {
+    --swiper-pagination-color: #454944;
   }
+}
 
 html {
   scroll-behavior: smooth;

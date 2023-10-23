@@ -26,7 +26,9 @@
             {{ value.heading }}
           </dt>
           <!-- Value description -->
-          <dd class="mt-2 text-base leading-7 text-gray-900">{{ value.description }}</dd>
+          <dd class="mt-2 text-base leading-7 text-gray-900">
+            {{ value.description }}
+          </dd>
         </div>
       </dl>
     </div>
