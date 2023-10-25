@@ -52,17 +52,29 @@
         <!-- Price, options, and cart -->
         <div class="mt-12 lg:row-span-3 lg:mt-0">
           <h2 class="sr-only">Product information</h2>
-          <p class="text-3xl tracking-tight text-hovergreen">{{ productData.price }} Ft</p>
+          <p class="text-3xl tracking-tight text-hovergreen">
+            {{ productData.price * selectedQuantity }} Ft
+          </p>
 
-          <!-- Add-to-Cart Button -->
-          <form @submit.prevent="addToCartClicked" class="mt-10">
-            <button
-              type="submit"
-              class="mt-10 flex bg-shadowgreen shadow-md text-ghostwhite py-2 px-6 text-sm lg:text-base hover:bg-hovergreen transition duration-300"
-            >
-              Kosárba
-            </button>
-          </form>
+          <!-- Quantity Selector and Add-to-Cart Button -->
+          <div class="mt-4 flex items-center space-x-2 gap-[0.75rem]">
+            <input
+              v-model="selectedQuantity"
+              type="number"
+              id="quantity"
+              name="quantity"
+              min="1"
+              class="w-10 h-9 sm:h-10 border border-hovergreen text-center text-shadowgreen bg-ghostwhite"
+            />
+            <form @submit.prevent="addToCartClicked">
+              <button
+                type="submit"
+                class="flex bg-shadowgreen shadow-md text-ghostwhite py-2 px-6 text-sm lg:text-base hover:bg-hovergreen transition duration-300"
+              >
+                Kosárba
+              </button>
+            </form>
+          </div>
         </div>
 
         <div
@@ -101,7 +113,6 @@
 
 <script setup>
 import { addToCart } from '../cart.js'
-
 import { ref, onMounted, defineProps } from 'vue'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase.js'
@@ -109,6 +120,9 @@ import { db } from '../firebase.js'
 const { productId } = defineProps(['productId']) // Extract the 'productId' prop from the component's props
 const productData = ref(null) // Create a reactive reference to store product data
 const productDocRef = doc(db, 'products', productId) // Reference to a specific document in Firestore
+
+// Define selectedQuantity and initialize it with a default value of 1
+const selectedQuantity = ref(1)
 
 onMounted(async () => {
   // Execute when the component is mounted
@@ -126,6 +140,6 @@ onMounted(async () => {
 
 const addToCartClicked = () => {
   // Function to add the product to the cart
-  addToCart(productData.value) // Call the addToCart function with the retrieved product data
+  addToCart(productData.value, selectedQuantity.value) // Call the addToCart function with the retrieved product data
 }
 </script>

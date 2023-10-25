@@ -66,7 +66,9 @@
                                   <h3>
                                     <a :href="product.href">{{ product.name }}</a>
                                   </h3>
-                                  <p class="ml-4">{{ product.price }} Ft</p>
+                                  <p class="ml-4">{{ product.price * product.quantity }} Ft</p>
+
+                                  <p class="ml-4">{{ product.quantity }} db</p>
                                 </div>
                               </div>
                               <!-- Remove Item -->
@@ -140,7 +142,7 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 const calculateTotal = () => {
   // Calculate and return the total price
   return cart.value.reduce((total, item) => {
-    return total + parseFloat(item.price) * parseInt(item.quantity)
+    return total + parseFloat(item.price) * item.quantity
   }, 0)
 }
 

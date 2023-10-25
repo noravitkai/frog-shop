@@ -5,12 +5,11 @@ import { saveCart } from './localStorage'
 const cart = ref([])
 
 // Function to add a product to the cart
-const addToCart = (product) => {
-  // Create a new cart item based on the product with an initial quantity of 1
-  const item = { ...product, quantity: 1 }
+const addToCart = (product, quantity = 1) => {
+  // Create a new cart item based on the product with the selected quantity
+  const item = { ...product, quantity }
   // Add the item to the cart
   cart.value.push(item)
-
   // Save the updated cart data to local storage
   saveCart(cart.value)
 }
@@ -22,7 +21,6 @@ const removeFromCart = (product) => {
   // If the product is found in the cart, remove it
   if (index !== -1) {
     cart.value.splice(index, 1)
-
     // Save the updated cart data to local storage
     saveCart(cart.value)
   }
