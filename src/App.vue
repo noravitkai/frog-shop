@@ -1,6 +1,5 @@
 <template>
   <RouterView />
-  <!-- This is where the router will render the components -->
 </template>
 
 <script setup>

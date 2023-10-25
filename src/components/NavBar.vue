@@ -24,7 +24,7 @@
             v-if="cart.length"
             class="absolute top-0 right-0 -mt-1 -mr-1 inline-flex items-center justify-center bg-hovergreen rounded-full h-4 w-4 text-sm text-ghostwhite"
           >
-            {{ cart.length }}
+            {{ totalCartQuantity }}
           </span>
         </button>
         <!-- Mobile Navigation Button -->
@@ -69,7 +69,7 @@
             v-if="cart.length"
             class="absolute top-0 right-0 -mt-1 -mr-1 inline-flex items-center justify-center bg-hovergreen rounded-full h-4 w-4 text-sm text-ghostwhite"
           >
-            {{ cart.length }}
+            {{ totalCartQuantity }}
           </span>
         </button>
 
@@ -145,7 +145,7 @@
 
 <script setup>
 import HappyFrog from '../assets/happy-frog.svg'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
 import { cart } from '../cart.js'
@@ -162,4 +162,9 @@ const showCart = ref(false)
 const toggleCart = () => {
   showCart.value = !showCart.value
 }
+
+// Computed property to calculate the total quantity in the cart for the badge
+const totalCartQuantity = computed(() => {
+  return cart.value.reduce((total, item) => total + item.quantity, 0)
+})
 </script>
