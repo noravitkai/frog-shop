@@ -2,14 +2,14 @@ import { collection, addDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { ref as vueref, reactive } from 'vue'
-import { getAuth, signOut } from 'firebase/auth'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 import useProducts from '@/useProducts'
 
 const { products, getProductsData } = useProducts()
 
-// Ref to control the visibility of the "Edit Product" modal
-const showEditProductModal = vueref(false)
+// Initialize Firebase Storage
+const storage = getStorage()
 
 // Ref to control the visibility of the "Add Product" modal
 const showAddProductModal = vueref(false)
@@ -24,6 +24,9 @@ const closeAddProductModal = () => {
   showAddProductModal.value = false
 }
 
+// Ref to control the visibility of the "Edit Product" modal
+const showEditProductModal = vueref(false)
+
 // Function to log out the user
 const logout = async () => {
   try {
@@ -36,6 +39,21 @@ const logout = async () => {
   }
 }
 
+// Function to check user authentication
+const checkUserAuthentication = () => {
+  return new Promise((resolve, reject) => {
+    const authInstance = getAuth()
+    const unsubscribe = onAuthStateChanged(authInstance, (user) => {
+      if (user) {
+        resolve() // User is authenticated
+      } else {
+        reject(new Error('User is not authenticated.'))
+      }
+      unsubscribe() // Unsubscribe to avoid memory leaks
+    })
+  })
+}
+
 // Object to hold the data for a new product and flag to control the state of button
 let addItemData = reactive({
   name: '',
@@ -44,10 +62,11 @@ let addItemData = reactive({
   preparationTime: 0,
   stockQuantity: 0,
   imageURL: '',
+  imageGallery: [],
   uploadBtnDisabled: true
 })
 
-// Add dynamic data to Firebase Firestore
+// Add dynamic data to Firestore
 const firebaseAddSingleItem = async () => {
   try {
     // Check if the image has been uploaded
@@ -59,7 +78,8 @@ const firebaseAddSingleItem = async () => {
         price: addItemData.price,
         preparationTime: addItemData.preparationTime,
         stockQuantity: addItemData.stockQuantity,
-        imageURL: addItemData.imageURL
+        imageURL: addItemData.imageURL,
+        imageGallery: addItemData.imageGallery
       })
       // After a successful submission, close the modal
       closeAddProductModal()
@@ -71,67 +91,75 @@ const firebaseAddSingleItem = async () => {
   }
 }
 
-// Initialize Firebase Storage
-const storage = getStorage()
-
-// Upload an image to Firebase Storage
-const uploadImage = async (event) => {
+const uploadImage = async (field, event) => {
   console.log('uploadImage function is called')
-  let file = event.target.files[0]
-  console.log('Selected File:', file)
-  // Create the file metadata
-  /** @type {any} */
-  const metadata = {
-    contentType: 'image/jpg'
-  }
-
-  // Create a reference to the storage location for the image
-  const storageRef = ref(storage, 'product-images/' + file.name)
-  // Create an upload task with uploadBytesResumable to upload the selected image to Storage
-  console.log('upload', storageRef)
-  const uploadTask = uploadBytesResumable(storageRef, file, metadata)
-  //debugger
-
-  // Listen for state changes, errors, and completion of the upload
-  uploadTask.on(
-    'state_changed',
-    (snapshot) => {
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      console.log('Upload is ' + progress + '% done')
-      switch (snapshot.state) {
-        case 'paused':
-          console.log('Upload is paused')
-          break
-        case 'running':
-          console.log('Upload is running')
-          break
-      }
-    },
-    (error) => {
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          break
-        case 'storage/canceled':
-          // User canceled the upload
-          break
-        case 'storage/unknown':
-          // Unknown error occurred, inspect error.serverResponse
-          break
-      }
-    },
-    () => {
-      // Get the download URL of the uploaded image upon a succesfull upload
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL)
-
-        addItemData.imageURL = downloadURL
-        // Enable the "Add Product" button
-        addItemData.uploadBtnDisabled = false
-      })
+  const files = event.target.files
+  try {
+    // Check if the user is authenticated
+    await checkUserAuthentication()
+    // Proceed with image upload upon authentication
+    if (!files || files.length === 0) {
+      console.error('No files selected.')
+      return
     }
-  )
+    // Create an array to store the promises for each upload task
+    const uploadPromises = []
+    // Create a reference to the storage location for each selected image
+    for (const file of files) {
+      const metadata = {
+        contentType: 'image/jpg'
+      }
+      // Create a reference to the Storage location for the image based on the field 'imageURL' or 'imageGallery'
+      let storageRef
+      if (field === 'imageURL') {
+        storageRef = ref(storage, 'product-images/' + file.name)
+      } else if (field === 'imageGallery') {
+        storageRef = ref(storage, 'product-images/' + file.name)
+      }
+      // Create an upload task with uploadBytesResumable to upload the selected image to Storage
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata)
+      // Create a promise for each upload task
+      const uploadPromise = new Promise((resolve, reject) => {
+        uploadTask.on(
+          'state_changed',
+          () => {},
+          (error) => {
+            reject(error)
+          },
+          () => {
+            // Get the download URL of the uploaded image upon a successful upload
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                console.log('File available at', downloadURL)
+                // Check the field and update the corresponding data
+                if (field === 'imageURL') {
+                  addItemData.imageURL = downloadURL // Update imageURL
+                  // Enable the "Add Product" button
+                  addItemData.uploadBtnDisabled = false
+                } else if (field === 'imageGallery') {
+                  addItemData.imageGallery.push(downloadURL) // Add to the imageGallery array
+                }
+                resolve(downloadURL)
+              })
+              .catch((error) => {
+                reject(error)
+              })
+          }
+        )
+      })
+      uploadPromises.push(uploadPromise)
+    }
+    // Wait for all upload tasks to complete
+    Promise.all(uploadPromises)
+      .then(() => {
+        console.log('All uploads are completed')
+      })
+      .catch((error) => {
+        console.error('Error during file uploads:', error)
+      })
+  } catch (error) {
+    console.error('Authentication error:', error.message)
+  }
 }
 
 export {

@@ -88,8 +88,17 @@
               />
             </div>
             <div class="w-full mb-4">
-              <span class="pr-1">Kép</span>
-              <input type="file" label="File input" @change="uploadImage" />
+              <span class="pr-1">Termékkép</span>
+              <input type="file" label="File input" @change="uploadImage('imageURL', $event)" />
+            </div>
+            <div class="w-full mb-4">
+              <span class="pr-1">Galéria képei</span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                @change="uploadImage('imageGallery', $event)"
+              />
             </div>
             <div class="w-full mb-4">
               <span>Termékleírás</span>

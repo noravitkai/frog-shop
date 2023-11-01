@@ -1,8 +1,8 @@
 import { db } from '@/firebase'
 import { ref } from 'vue'
 import { collection, onSnapshot, doc, deleteDoc, addDoc, updateDoc } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { showEditProductModal } from '@/admin'
+import { addItemData } from '@/admin'
+import { showEditProductModal, closeAddProductModal } from '@/admin'
 
 const useProducts = () => {
   const products = ref([])
@@ -25,25 +25,25 @@ const useProducts = () => {
   // Add a new product to the Firebase database
   const firebaseAddSingleItem = async () => {
     try {
-      // Check user authentication status
-      const auth = getAuth()
-      const user = auth.currentUser
-
-      if (user) {
-        const userUID = user.uid
-
-        // Perform Firebase data submission with the user's UID
+      // Check if the images have been uploaded
+      if (
+        addItemData.imageURL &&
+        addItemData.imageGallery.every((galleryItem) => galleryItem !== '')
+      ) {
+        // Perform Firebase data submission
         await addDoc(collection(db, 'products'), {
-          name: AddItemData.value.name,
-          description: AddItemData.value.description,
-          price: AddItemData.value.price,
-          preparationTime: AddItemData.value.preparationTime,
-          stockQuantity: AddItemData.value.stockQuantity,
-          imageURL: AddItemData.value.imageURL,
-          createdBy: userUID
+          name: addItemData.name,
+          description: addItemData.description,
+          price: addItemData.price,
+          preparationTime: addItemData.preparationTime,
+          stockQuantity: addItemData.stockQuantity,
+          imageURL: addItemData.imageURL,
+          imageGallery: addItemData.imageGallery
         })
+        // After a successful submission, close the modal
+        closeAddProductModal()
       } else {
-        console.error('User is not authenticated.')
+        console.error('Images upload is not complete.')
       }
     } catch (error) {
       console.error(error)
