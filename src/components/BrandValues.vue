@@ -26,7 +26,7 @@
             {{ value.heading }}
           </dt>
           <!-- Value description -->
-          <dd class="mt-2 text-base leading-7 text-gray-900">
+          <dd class="mt-2 text-base leading-7 text-shadowgreen">
             {{ value.description }}
           </dd>
         </div>
@@ -43,19 +43,19 @@ const values = [
   {
     heading: 'Kézműves',
     description:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
+      'Minden termékünk kézzel készül, így garantáljuk a minőséget és a tartósságot vásárlóink számára, hogy termékeinket ne kelljen évente cserélni!',
     icon: ScissorsIcon
   },
   {
     heading: 'Egyedi',
     description:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
+      'A különböző színek és méretek széles választékával biztosítjuk, hogy mindenki megtalálja a számára legmegfelelőbb terméket.',
     icon: StarIcon
   },
   {
     heading: 'Környezetbarát',
     description:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
+      'Odafigyelünk, hogy az alapanyagok honnan származnak, és hogy a termékeinket újra lehessen hasznosítani.',
     icon: GlobeEuropeAfricaIcon
   }
 ]

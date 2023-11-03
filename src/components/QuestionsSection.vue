@@ -4,7 +4,7 @@
       <h2
         class="text-2xl lg:text-4xl text-center font-bold tracking-tight text-hovergreen pb-3 sm:pb-4 lg:pb-6 relative mb-6 sm:mb-8 lg:mb-12"
       >
-        Kérdésed van?
+        Gyakori kérdések
         <!-- Line Separator -->
         <span
           class="block w-16 mx-auto h-1 bg-hovergreen absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2"

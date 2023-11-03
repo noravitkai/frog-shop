@@ -72,16 +72,6 @@
             {{ totalCartQuantity }}
           </span>
         </button>
-
-        <!-- Log in Button on Desktop -->
-        <a href="#" class="text-sm font-semibold leading-6 text-hovergreen group relative">
-          Bejelentkezés
-          <!-- Underline Effect -->
-          <span
-            class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform translate-y-1 scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
-          ></span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
       </div>
     </nav>
 
@@ -119,20 +109,6 @@
               <span
                 class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
               ></span>
-            </a>
-          </div>
-          <div class="py-6">
-            <!-- Log in Button on Mobile -->
-            <a
-              href="#"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-sm font-semibold leading-7 text-hovergreen group relative"
-            >
-              Bejelentkezés
-              <!-- Underline Effect -->
-              <span
-                class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
-              ></span>
-              <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>

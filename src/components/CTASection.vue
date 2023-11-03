@@ -19,15 +19,14 @@
         <h2
           class="text-2xl lg:text-4xl font-bold tracking-tight text-hovergreen pb-2 sm:pb-4 lg:pb-6 relative mb-3 sm:mb-4 lg:mb-6"
         >
-          Egyéb
+          Történetünk
           <span
             class="block w-16 mx-auto h-1 bg-hovergreen absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2"
           ></span>
         </h2>
         <p class="text-center text-shadowgreen">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo vel ligula
-          tristique maximus. Nullam feugiat orci et nibh sollicitudin, id vehicula urna aliquet.
-          Nulla facilisi.
+          Kis családi vállalkozásunkat 2022-ben alapítottuk, és azóta is folyamatosan fejlődünk. A
+          termékeinket a saját otthonunkban készítjük, így garantáljuk a minőséget és a tartósságot.
         </p>
       </div>
     </div>
