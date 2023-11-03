@@ -171,6 +171,31 @@
                 class="w-full p-2 bg-ghostwhite focus:ring-2 focus:ring-shadowgreen focus:ring-opacity-50 focus:outline-none"
               />
             </div>
+            <!-- Replace Image Checkbox -->
+            <div class="w-full mb-4">
+              <label>
+                Másik kép(ek)et szeretnék
+                <input type="checkbox" v-model="showFileInputs" />
+              </label>
+            </div>
+            <!-- File Input Fields (conditionally rendered) -->
+            <div class="w-full mb-4" v-if="showFileInputs">
+              <span class="pr-1">Új termékkép</span>
+              <input
+                type="file"
+                label="File input"
+                @change="updateImageOnEdit(editedProduct, 'imageURL', $event, true)"
+              />
+            </div>
+            <div class="w-full mb-4" v-if="showFileInputs">
+              <span class="pr-1">Új galériaképek</span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                @change="updateImageOnEdit(editedProduct, 'imageGallery', $event, true)"
+              />
+            </div>
             <div class="w-full mb-4">
               <span>Termékleírás</span>
               <textarea
@@ -231,21 +256,43 @@
 </template>
 
 <script setup>
+// Importing composition functions and reactive variables
 import {
   showAddProductModal,
   showEditProductModal,
   closeAddProductModal,
-  logout,
   addItemData,
   firebaseAddSingleItem,
   products,
-  uploadImage
+  uploadImage,
+  updateImageOnEdit
 } from '@/admin'
 
 import useProducts from '@/useProducts'
+// Composition function to manage product-related data and actions
 const { firebaseDeleteSingleItem, firebaseUpdateSingleItem, editedProduct, editProduct } =
   useProducts()
 
+import { ref } from 'vue'
+// Ref for controlling the visibility of file input fields
+const showFileInputs = ref(false)
+
+import { getAuth, signOut } from 'firebase/auth'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+// Function to log out the admin
+const logout = async () => {
+  try {
+    const auth = getAuth()
+    await signOut(auth)
+    router.push({ name: 'admin' })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// Function to edit a product and show the edit modal
 const editAndShowProductModal = (product) => {
   editProduct(product)
   showEditProductModal.value = true
