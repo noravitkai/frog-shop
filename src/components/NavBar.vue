@@ -3,10 +3,10 @@
     <nav class="flex items-center justify-between p-3 lg:px-5" aria-label="Global">
       <!-- Logo -->
       <div class="flex lg:flex-1">
-        <a href="#home" class="-m-1.5 p-1.5">
+        <router-link to="/" class="-m-1.5 p-1.5">
           <span class="sr-only">Frog Shop</span>
           <img class="h-8 w-auto" :src="HappyFrog" alt="Frog Shop" />
-        </a>
+        </router-link>
       </div>
 
       <!-- Shopping Bag and Navigation Button on Mobile -->
@@ -59,7 +59,7 @@
         <!-- Shopping Bag on Desktop -->
         <button
           type="button"
-          class="-m-2.5 inline-flex items-center justify-center relative p-2.5 text-hovergreen mr-6"
+          class="-m-2.5 inline-flex items-center justify-center relative p-2.5 text-hovergreen"
           @click="toggleCart"
         >
           <span class="sr-only">Open shopping cart</span>
@@ -72,16 +72,6 @@
             {{ totalCartQuantity }}
           </span>
         </button>
-
-        <!-- Log in Button on Desktop -->
-        <a href="#" class="text-sm font-semibold leading-6 text-hovergreen group relative">
-          Bejelentkezés
-          <!-- Underline Effect -->
-          <span
-            class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform translate-y-1 scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
-          ></span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
       </div>
     </nav>
 
@@ -92,10 +82,10 @@
         class="bg-greygreen fixed inset-y-0 right-0 z-50 w-full overflow-y-auto px-6 py-6 sm:max-w-sm"
       >
         <div class="flex items-center justify-between">
-          <a href="#" class="-m-1.5 p-1.5">
+          <router-link to="/" class="-m-1.5 p-1.5">
             <span class="sr-only">Frog Shop</span>
             <img class="h-8 w-auto" src="src/assets/happy-frog.svg" alt="" />
-          </a>
+          </router-link>
           <button
             type="button"
             class="-m-2.5 rounded-md p-2.5 text-hovergreen"
@@ -119,20 +109,6 @@
               <span
                 class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
               ></span>
-            </a>
-          </div>
-          <div class="py-6">
-            <!-- Log in Button on Mobile -->
-            <a
-              href="#"
-              class="-mx-3 block rounded-lg px-3 py-2.5 text-sm font-semibold leading-7 text-hovergreen group relative"
-            >
-              Bejelentkezés
-              <!-- Underline Effect -->
-              <span
-                class="absolute inset-x-0 bottom-0 h-0.5 bg-hovergreen transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 lg:group-hover:w-full"
-              ></span>
-              <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>

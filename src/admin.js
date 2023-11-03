@@ -159,6 +159,7 @@ const updateImageOnEdit = async (product, field, event, updateImage) => {
     }
     // Create an array to store the promises for each upload task
     const uploadPromises = []
+    const newImageGallery = [] // Create a new array for the updated imageGallery
     // Create a reference to the storage location for each selected image
     for (const file of files) {
       const metadata = {
@@ -177,7 +178,7 @@ const updateImageOnEdit = async (product, field, event, updateImage) => {
             reject(error)
           },
           () => {
-            // Get the download URL of the uploaded image upon a successful upload
+            // Get the download URLs of the uploaded images upon a successful upload
             getDownloadURL(uploadTask.snapshot.ref)
               .then((downloadURL) => {
                 console.log('File available at', downloadURL)
@@ -190,7 +191,7 @@ const updateImageOnEdit = async (product, field, event, updateImage) => {
                 } else if (field === 'imageGallery') {
                   if (updateImage) {
                     console.log('Adding to imageGallery:', downloadURL)
-                    product.imageGallery.push(downloadURL) // Add to the imageGallery array of the edited product
+                    newImageGallery.push(downloadURL) // Add the new download URL to the updated array
                   }
                 }
                 resolve(downloadURL)
@@ -205,6 +206,12 @@ const updateImageOnEdit = async (product, field, event, updateImage) => {
     }
     // Wait for all upload tasks to complete
     await Promise.all(uploadPromises)
+
+    // Replace the existing imageGallery with the newImageGallery
+    if (field === 'imageGallery' && updateImage) {
+      product.imageGallery = newImageGallery
+    }
+
     console.log('All uploads are completed')
   } catch (error) {
     console.error('Authentication error:', error.message)

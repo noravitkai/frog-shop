@@ -1,14 +1,12 @@
 <template>
-  <div id="home">
-    <div>
-      <NavBar />
-    </div>
-    <div class="mt-14">
-      <CheckoutComponent />
-    </div>
-    <div>
-      <FooterComponent />
-    </div>
+  <div>
+    <NavBar />
+  </div>
+  <div class="mt-14">
+    <CheckoutComponent />
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 

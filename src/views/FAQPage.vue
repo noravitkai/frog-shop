@@ -1,17 +1,15 @@
 <template>
-  <div id="faq">
-    <div>
-      <NavBar />
-    </div>
-    <div class="mt-14">
-      <QuestionsSection />
-    </div>
-    <div>
-      <ContactSection />
-    </div>
-    <div>
-      <FooterComponent />
-    </div>
+  <div>
+    <NavBar />
+  </div>
+  <div class="mt-14">
+    <QuestionsSection />
+  </div>
+  <div>
+    <ContactSection />
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 

@@ -11,14 +11,12 @@
         ></span>
       </h2>
       <!-- Two-column grid for form and contact information -->
-      <div
-        class="grid max-w-2xl grid-cols-1 gap-6 px-4 lg:grid-cols-2 sm:px-6 lg:max-w-7xl lg:px-8"
-      >
+      <div class="grid max-w-2xl grid-cols-1 gap-6 lg:grid-cols-2 lg:max-w-7xl">
         <!-- Contact form -->
-        <form action="" method="POST">
+        <form action="https://getform.io/f/e9435c3e-d46c-4daa-b986-d0640c3b5d34" method="POST">
           <!-- Form container -->
           <div
-            class="mx-auto max-w-xl border-solid border-[0.075rem] border-hovergreen p-4 lg:max-w-lg shadow-md"
+            class="max-w-xl border-solid border-[0.075rem] border-hovergreen p-4 lg:max-w-[38rem] shadow-md"
           >
             <!-- Form fields -->
             <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">

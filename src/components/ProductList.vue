@@ -17,9 +17,8 @@
           <!-- Clickable product images with a link to the product page -->
           <a :href="getProductPageUrl(product.id)">
             <div
-              class="aspect-w-1 aspect-h-1 w-full rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 shadow-md"
+              class="w-full rounded-md bg-gray-200 h-[16rem] sm:h-[18rem] lg:h-[20rem] xl:h-[22rem] shadow-md group-hover:opacity-75"
             >
-              <!-- Display the image of the product -->
               <img
                 :src="product.imageURL"
                 :alt="product.imageAlt"

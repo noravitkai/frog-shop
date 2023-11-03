@@ -1,26 +1,24 @@
 <template>
-  <div id="home">
-    <div>
-      <NavBar />
-    </div>
-    <div class="mt-14">
-      <PromoSection />
-    </div>
-    <div>
-      <ProductList />
-    </div>
-    <div>
-      <BrandValues />
-    </div>
-    <div>
-      <CTASection />
-    </div>
-    <div>
-      <ContactSection />
-    </div>
-    <div>
-      <FooterComponent />
-    </div>
+  <div>
+    <NavBar />
+  </div>
+  <div class="mt-14">
+    <PromoSection />
+  </div>
+  <div>
+    <ProductList />
+  </div>
+  <div>
+    <BrandValues />
+  </div>
+  <div>
+    <CTASection />
+  </div>
+  <div>
+    <ContactSection />
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 

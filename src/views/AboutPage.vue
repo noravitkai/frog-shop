@@ -1,20 +1,18 @@
 <template>
-  <div id="about">
-    <div>
-      <NavBar />
-    </div>
-    <div class="mt-14">
-      <AboutHeader />
-    </div>
-    <div>
-      <BrandMission />
-    </div>
-    <div>
-      <TimelineSection />
-    </div>
-    <div>
-      <FooterComponent />
-    </div>
+  <div>
+    <NavBar />
+  </div>
+  <div class="mt-14">
+    <AboutHeader />
+  </div>
+  <div>
+    <BrandMission />
+  </div>
+  <div>
+    <TimelineSection />
+  </div>
+  <div>
+    <FooterComponent />
   </div>
 </template>
 
