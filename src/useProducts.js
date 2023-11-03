@@ -1,13 +1,15 @@
 import { db } from '@/firebase'
 import { ref } from 'vue'
-import { collection, onSnapshot, doc, deleteDoc, addDoc, updateDoc } from 'firebase/firestore'
+import { collection, onSnapshot, doc, deleteDoc, addDoc, getDoc, setDoc } from 'firebase/firestore'
 import { addItemData } from '@/admin'
 import { showEditProductModal, closeAddProductModal } from '@/admin'
 
 const useProducts = () => {
+  // Create a ref for products data
   const products = ref([])
   const productDataRef = collection(db, 'products')
 
+  // Create a ref for adding a new product
   const AddItemData = ref('')
 
   // Retrieve product data from Firebase in real-time
@@ -22,10 +24,10 @@ const useProducts = () => {
     })
   }
 
-  // Add a new product to the Firebase database
+  // Function to add a new product to the database
   const firebaseAddSingleItem = async () => {
     try {
-      // Check if the images have been uploaded
+      // Check if the image has been uploaded
       if (
         addItemData.imageURL &&
         addItemData.imageGallery.every((galleryItem) => galleryItem !== '')
@@ -56,7 +58,9 @@ const useProducts = () => {
     description: '',
     price: '',
     preparationTime: '',
-    stockQuantity: ''
+    stockQuantity: '',
+    imageURL: '',
+    imageGallery: []
   })
 
   // Function to initiate product editing
@@ -68,21 +72,41 @@ const useProducts = () => {
       description: product.description,
       price: product.price,
       preparationTime: product.preparationTime,
-      stockQuantity: product.stockQuantity
+      stockQuantity: product.stockQuantity,
+      imageURL: product.imageURL,
+      imageGallery: product.imageGallery
     }
   }
 
-  // Function to update an edited product in Firestore
-  const firebaseUpdateSingleItem = () => {
-    const productDocRef = doc(productDataRef, editedProduct.value.id)
-
-    updateDoc(productDocRef, editedProduct.value)
-      .then(() => {
-        showEditProductModal.value = false
-      })
-      .catch((error) => {
-        console.error('Error updating product: ', error)
-      })
+  // Function to update a product in the database
+  const firebaseUpdateSingleItem = async () => {
+    try {
+      const productDocRef = doc(db, 'products', editedProduct.value.id)
+      // Get the current document data
+      const docSnapshot = await getDoc(productDocRef)
+      const currentData = docSnapshot.data()
+      console.log('Current data:', currentData)
+      // Create an object with the updated data
+      const updatedData = {
+        name: editedProduct.value.name,
+        description: editedProduct.value.description,
+        price: parseFloat(editedProduct.value.price),
+        preparationTime: parseInt(editedProduct.value.preparationTime),
+        stockQuantity: parseInt(editedProduct.value.stockQuantity),
+        imageURL: editedProduct.value.imageURL,
+        imageGallery: editedProduct.value.imageGallery
+      }
+      console.log('Updated data:', updatedData)
+      // Merge the updated data with the current data
+      const mergedData = { ...currentData, ...updatedData }
+      console.log('Merged data:', mergedData)
+      // Update the document with the merged data
+      await setDoc(productDocRef, mergedData)
+      console.log('Document updated successfully.')
+      showEditProductModal.value = false
+    } catch (error) {
+      console.error('Error updating product:', error)
+    }
   }
 
   // Delete a product from the Firebase database

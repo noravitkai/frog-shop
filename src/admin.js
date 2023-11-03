@@ -2,8 +2,7 @@ import { collection, addDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { ref as vueref, reactive } from 'vue'
-import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
-import { useRouter } from 'vue-router'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import useProducts from '@/useProducts'
 
 const { products, getProductsData } = useProducts()
@@ -26,18 +25,6 @@ const closeAddProductModal = () => {
 
 // Ref to control the visibility of the "Edit Product" modal
 const showEditProductModal = vueref(false)
-
-// Function to log out the user
-const logout = async () => {
-  try {
-    const auth = getAuth()
-    await signOut(auth)
-    const router = useRouter()
-    router.push({ name: 'admin' })
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 // Function to check user authentication
 const checkUserAuthentication = () => {
@@ -91,6 +78,7 @@ const firebaseAddSingleItem = async () => {
   }
 }
 
+// Function to upload images when adding a new product
 const uploadImage = async (field, event) => {
   console.log('uploadImage function is called')
   const files = event.target.files
@@ -109,13 +97,8 @@ const uploadImage = async (field, event) => {
       const metadata = {
         contentType: 'image/jpg'
       }
-      // Create a reference to the Storage location for the image based on the field 'imageURL' or 'imageGallery'
-      let storageRef
-      if (field === 'imageURL') {
-        storageRef = ref(storage, 'product-images/' + file.name)
-      } else if (field === 'imageGallery') {
-        storageRef = ref(storage, 'product-images/' + file.name)
-      }
+      // Create a reference to the Storage location for the image in the 'product-images' folder
+      const storageRef = ref(storage, 'product-images/' + file.name)
       // Create an upload task with uploadBytesResumable to upload the selected image to Storage
       const uploadTask = uploadBytesResumable(storageRef, file, metadata)
       // Create a promise for each upload task
@@ -131,13 +114,13 @@ const uploadImage = async (field, event) => {
             getDownloadURL(uploadTask.snapshot.ref)
               .then((downloadURL) => {
                 console.log('File available at', downloadURL)
-                // Check the field and update the corresponding data
+                // Check the field and update the corresponding data of the added product
                 if (field === 'imageURL') {
-                  addItemData.imageURL = downloadURL // Update imageURL
+                  addItemData.imageURL = downloadURL // Update imageURL of the added product
                   // Enable the "Add Product" button
                   addItemData.uploadBtnDisabled = false
                 } else if (field === 'imageGallery') {
-                  addItemData.imageGallery.push(downloadURL) // Add to the imageGallery array
+                  addItemData.imageGallery.push(downloadURL) // Add to the imageGallery array of the added product
                 }
                 resolve(downloadURL)
               })
@@ -162,14 +145,80 @@ const uploadImage = async (field, event) => {
   }
 }
 
+// Function to replace images when editing a product
+const updateImageOnEdit = async (product, field, event, updateImage) => {
+  console.log('updateImageOnEdit function is called')
+  const files = event.target.files
+  try {
+    // Check if the user is authenticated
+    await checkUserAuthentication()
+    // Proceed with image replacement upon authentication
+    if (!files || files.length === 0) {
+      console.error('No files selected.')
+      return
+    }
+    // Create an array to store the promises for each upload task
+    const uploadPromises = []
+    // Create a reference to the storage location for each selected image
+    for (const file of files) {
+      const metadata = {
+        contentType: 'image/jpg'
+      }
+      // Create a reference to the Storage location for the image in the 'product-images' folder
+      const storageRef = ref(storage, 'product-images/' + file.name)
+      // Create an upload task with uploadBytesResumable to upload the selected image to Storage
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata)
+      // Create a promise for each upload task
+      const uploadPromise = new Promise((resolve, reject) => {
+        uploadTask.on(
+          'state_changed',
+          () => {},
+          (error) => {
+            reject(error)
+          },
+          () => {
+            // Get the download URL of the uploaded image upon a successful upload
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                console.log('File available at', downloadURL)
+                // Check the field and update the corresponding data of the edited product
+                if (field === 'imageURL') {
+                  if (updateImage) {
+                    console.log('Updating imageURL:', downloadURL)
+                    product.imageURL = downloadURL // Update imageURL of the edited product
+                  }
+                } else if (field === 'imageGallery') {
+                  if (updateImage) {
+                    console.log('Adding to imageGallery:', downloadURL)
+                    product.imageGallery.push(downloadURL) // Add to the imageGallery array of the edited product
+                  }
+                }
+                resolve(downloadURL)
+              })
+              .catch((error) => {
+                reject(error)
+              })
+          }
+        )
+      })
+      uploadPromises.push(uploadPromise)
+    }
+    // Wait for all upload tasks to complete
+    await Promise.all(uploadPromises)
+    console.log('All uploads are completed')
+  } catch (error) {
+    console.error('Authentication error:', error.message)
+  }
+}
+
 export {
   showAddProductModal,
   showEditProductModal,
   openAddProductModal,
   closeAddProductModal,
-  logout,
   addItemData,
   uploadImage,
+  updateImageOnEdit,
   firebaseAddSingleItem,
   products
 }
