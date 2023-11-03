@@ -4,7 +4,7 @@
     <!-- Column with an image -->
     <div class="w-full lg:w-1/2 order-2 lg:order-1">
       <img
-        src="src/assets/carousel01.jpg"
+        src="@/assets/carousel01.jpg"
         alt="Frog Shop"
         class="w-full h-auto shadow-md"
         ref="imageRef"
