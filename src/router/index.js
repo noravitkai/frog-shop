@@ -6,6 +6,7 @@ import { auth } from '@/firebase'
 import HomePage from '../views/HomePage.vue'
 import ProductPage from '../views/ProductPage.vue'
 import ProductDetails from '../components/ProductDetails.vue'
+import AboutPage from '../views/AboutPage.vue'
 import FAQPage from '../views/FAQPage.vue'
 import CheckoutPage from '../views/CheckoutPage.vue'
 import LoginComponent from '../components/LoginComponent.vue'
@@ -42,6 +43,12 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: CheckoutPage
+    },
+    {
+      // Route for the about page
+      path: '/about',
+      name: 'about',
+      component: AboutPage
     },
     {
       // Route for the FAQ page
