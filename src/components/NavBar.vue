@@ -84,7 +84,7 @@
         <div class="flex items-center justify-between">
           <router-link to="/" class="-m-1.5 p-1.5">
             <span class="sr-only">Frog Shop</span>
-            <img class="h-8 w-auto" src="src/assets/happy-frog.svg" alt="" />
+            <img class="h-8 w-auto" src="@/assets/happy-frog.svg" alt="" />
           </router-link>
           <button
             type="button"

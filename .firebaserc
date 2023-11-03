@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "frog-shop-f49e2"
-  }
+    "default": "frog-shop-f49e2",
+    "production": "frog-shop-f49e2"
+  },
+  "targets": {},
+  "etags": {}
 }
